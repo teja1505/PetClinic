@@ -21,7 +21,18 @@ pipeline {
                }
            }		
         }
-        
+        stage('unit-test') {
+	          steps {
+                // step3
+                echo 'unittest..'
+	               sh script: '/opt/maven/bin/mvn test'
+            }
+	          post {
+               success {
+                   junit 'target/surefire-reports/*.xml'
+               }
+            }			
+        }
         stage('codecoverage') {
 
            tools {
@@ -49,8 +60,8 @@ pipeline {
 	         steps {
               withDockerRegistry(credentialsId: 'DOCKER_HUB_LOGIN', url: 'https://index.docker.io/v1/') {
                     sh script: 'cd  $WORKSPACE'
-                    sh script: 'docker build --file Dockerfile --tag docker.io/lerndevops/petclinic:$BUILD_NUMBER .'
-                    sh script: 'docker push docker.io/lerndevops/petclinic:$BUILD_NUMBER'
+                    sh script: 'docker build --file Dockerfile --tag docker.io/teja150595/petclinic:$BUILD_NUMBER .'
+                    sh script: 'docker push docker.io/teja150595/petclinic:$BUILD_NUMBER'
               }	
            }		
         }
