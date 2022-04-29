@@ -21,18 +21,7 @@ pipeline {
                }
            }		
         }
-        stage('unit-test') {
-	          steps {
-                // step3
-                echo 'unittest..'
-	               sh script: '/opt/maven/bin/mvn test'
-            }
-	          post {
-               success {
-                   junit 'target/surefire-reports/*.xml'
-               }
-            }			
-        }
+        
         stage('codecoverage') {
 
            tools {
